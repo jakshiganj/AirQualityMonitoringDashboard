@@ -1,7 +1,36 @@
+using AirQualityMonitoringDashboard.Repositories;
+using AirQualityMonitoringDashboard.Services;
+using AirQualityMonitoringDashboard.Data;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using AirQualityMonitoringDashboard.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// Add Database Context with correct connection string
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Register Scoped services
+builder.Services.AddScoped<IAQIDataRepository, AQIDataRepository>();
+builder.Services.AddScoped<ISensorRepository, SensorRepository>();
+
+// Register other services
+builder.Services.AddHttpClient<AQIDataService>();
+builder.Services.AddHostedService<AirQualityBackgroundService>();
+
+// Configure Identity
+builder.Services.AddIdentity<User, IdentityRole>(options =>
+{
+    options.SignIn.RequireConfirmedAccount = false;
+})
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
 
 var app = builder.Build();
 
@@ -9,7 +38,6 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -23,5 +51,5 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-
+app.MapControllers();
 app.Run();
