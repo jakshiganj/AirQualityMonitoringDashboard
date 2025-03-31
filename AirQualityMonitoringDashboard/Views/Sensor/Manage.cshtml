@@ -1,6 +1,5 @@
 @model List<Sensor>
 
-    <!DOCTYPE html>
     <html lang="en">
 
     <head>
@@ -65,20 +64,22 @@
                                         <strong>Sensor Location: </strong> @sensor.Location <br>
                                         <strong>Sensor Description: </strong> @sensor.Description <br>
                                         <strong>Sensor Created: </strong>@sensor.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")<br>
-                                        @if (sensor.AQIData != null && sensor.AQIData.Any()) {
-                                        <ul>
-                                            @foreach (var aqi in sensor.AQIData)
+                                    </p>
+                                    @if (sensor.AQIData != null && sensor.AQIData.Any()) {
+                                    <ul>
+                                        @foreach (var aqi in sensor.AQIData)
                                                 {
-                                            <li>
-                                                <strong>Data: </strong> @aqi.Value,
-                                                <strong>Last Recorded: </strong> @aqi.Date.ToString("yyyy-MM-dd")
-                                            </li>
+                                        <li>
+                                            <strong>Data: </strong> @aqi.Value,
+                                        </li>
+                                        <li>
+                                            <strong>Last Recorded: </strong> @aqi.Date.ToString("yyyy-MM-dd")
+                                        </li>
                                                 }
-                                        </ul>
+                                    </ul>
                                         } else {
                                             No AQI data available
                                         }
-                                    </p>
                                 </div>
                             </div>
                         </td>
