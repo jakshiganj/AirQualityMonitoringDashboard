@@ -2,7 +2,7 @@ body {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #e0f7fa, #b7e5ec); /* Light cyan gradient background */
+    background: linear-gradient(135deg, #e0f7fa, #b7e5ec); 
 }
 
 /* Mode Toggle Switch */
@@ -63,7 +63,7 @@ input:checked + .slider:before {
     transition: 0.4s;
 }
 
-/* Light Mode Styles (as provided) */
+/* Light Mode Styles */
 .dashboard-container {
     max-width: 1200px;
     margin: 20px auto;
@@ -287,7 +287,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: linear-gradient(45deg, #0288d1, #4fc3f7); /* Vibrant blue gradient */
+    background: linear-gradient(45deg, #0288d1, #4fc3f7);
     padding: 15px 25px;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.2);
