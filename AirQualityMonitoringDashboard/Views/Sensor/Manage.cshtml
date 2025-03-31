@@ -1,0 +1,60 @@
+@model List<Sensor>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sensor Collection</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+
+<body style="padding: 20px; background-color: #f0f0f0; font-family: Arial, sans-serif;">
+    <div style="text-align: center;">
+        <h1>System Sensor Collection View</h1>
+    </div>
+    <div>
+        <h2>Connected Sensors</h2>
+        <a href="#">Add Sensor</a>
+    </div>
+    <div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Sensor Name</th>
+                    <th>Location</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var sensor in Model)
+                {
+                    <tr>
+                        <td>@sensor.Name</td>
+                        <td>@sensor.Location</td>
+                        <td>@sensor.Status</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>
