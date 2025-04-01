@@ -60,27 +60,34 @@
                                 </label>
                                 <div class="collapse-text">
                                     <p>
-                                        <strong>Sensor Type: </strong> @sensor.Type <br>
+                                        @* <strong>Sensor Type: </strong> @sensor.Type <br> *@
                                         <strong>Sensor Status: </strong> @sensor.Status <br>
                                         <strong>Sensor Location: </strong> @sensor.Location <br>
-                                        <strong>Sensor Description: </strong> @sensor.Description <br>
+                                        @* <strong>Sensor Description: </strong> @sensor.Description <br> *@
                                         <strong>Sensor Created: </strong>@sensor.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")<br>
                                     </p>
-                                    @if (sensor.AQIData != null && sensor.AQIData.Any()) {
-                                    <ul>
-                                        @foreach (var aqi in sensor.AQIData)
-                                                {
-                                        <li>
-                                            <strong>Data: </strong> @aqi.Value,
-                                        </li>
-                                        <li>
-                                            <strong>Last Recorded: </strong> @aqi.Date.ToString("yyyy-MM-dd")
-                                        </li>
-                                                }
-                                    </ul>
-                                        } else {
-                                            No AQI data available
-                                        }
+                                    @* @if (sensor.AQIData != null) *@
+                                    @* { *@
+                                    @*     <p><strong>AQI Data Count: </strong> @sensor.AQIData.Count()</p> *@
+                                    @*     @if (sensor.AQIData.Any()) *@
+                                    @*     { *@
+                                    @*         <ul> *@
+                                    @*             @foreach (var aqi in sensor.AQIData) *@
+                                    @*             { *@
+                                    @*                 <li><strong>Data:</strong> @aqi.AQI</li> *@
+                                    @*                 <li><strong>Last Recorded:</strong> @aqi.RecordedAt.ToString("yyyy-MM-dd")</li> *@
+                                    @*             } *@
+                                    @*         </ul> *@
+                                    @*     } *@
+                                    @*     else *@
+                                    @*     { *@
+                                    @*         <strong>No AQI data available</strong> *@
+                                    @*     } *@
+                                    @* } *@
+                                    @* else *@
+                                    @* { *@
+                                    @*     <strong>AQIData is NULL</strong> *@
+                                    @* } *@
                                 </div>
                             </div>
                         </td>
