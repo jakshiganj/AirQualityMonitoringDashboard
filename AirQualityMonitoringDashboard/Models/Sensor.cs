@@ -26,6 +26,6 @@ namespace AirQualityMonitoringDashboard.Models
 
         public DateTime CreatedAt { get; set; } // Default to current time
 
-        public ICollection<AQIData> AQIData { get; set; }  // This allows access to all AQI data for this sensor
+        public ICollection<AQIData> AQIData { get; set; } = new List<AQIData>();
     }
 }

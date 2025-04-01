@@ -1,0 +1,111 @@
+@model List<Sensor>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sensor Collection</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="site.css">
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="text-center">
+            <h1>System Sensor Collection View</h1>
+        </div>
+
+        <div class="d-flex justify-content-between my-3">
+            <h2>Connected Sensors</h2>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addSensorModal">Add Sensor</button>
+        </div>
+
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Sensor Name</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var sensor in Model)
+                {
+                    <tr>
+                        <td>
+                            <strong>@sensor.Name</strong><br>
+                            <small><strong>Status:</strong> @sensor.Status | <strong>Location:</strong> @sensor.Location | <strong>Created:</strong> @sensor.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")</small>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editSensorModal-@sensor.Id">Edit</button>
+                            <form asp-action="Delete" asp-controller="Sensor" method="post" class="d-inline">
+                                <input type="hidden" name="id" value="@sensor.Id" />
+                                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?');">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Add Sensor Modal -->
+    <div class="modal fade" id="addSensorModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5>Add Sensor</h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <form asp-action="Add" asp-controller="Sensor" method="post">
+                    <div class="modal-body">
+                        <input type="text" name="Name" placeholder="Sensor Name" class="form-control mb-2" required>
+                        <input type="text" name="Location" placeholder="Sensor Location" class="form-control mb-2" required>
+                        <select name="Status" class="form-control" required>
+                            <option value="Active">Active</option>
+                            <option value="Inactive">Inactive</option>
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Add Sensor</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Sensor Modals -->
+    @foreach (var sensor in Model)
+    {
+        <div class="modal fade" id="editSensorModal-@sensor.Id">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5>Edit Sensor - @sensor.Name</h5>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <form asp-action="Edit" asp-controller="Sensor" method="post">
+                        <div class="modal-body">
+                            <input type="hidden" name="Id" value="@sensor.Id">
+                            <input type="text" name="Name" value="@sensor.Name" class="form-control mb-2" required>
+                            <input type="text" name="Location" value="@sensor.Location" class="form-control mb-2" required>
+                            <select name="Status" class="form-control" required>
+                                <option value="Active" selected="@(sensor.Status == "Active")">Active</option>
+                                <option value="Inactive" selected="@(sensor.Status == "Inactive")">Inactive</option>
+                            </select>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Update Sensor</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    }
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
