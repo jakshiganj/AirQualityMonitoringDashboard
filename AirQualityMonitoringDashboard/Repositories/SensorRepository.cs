@@ -21,6 +21,14 @@ namespace AirQualityMonitoringDashboard.Repositories
             return await _context.Sensors.ToListAsync();
         }
 
+        //public async Task<IEnumerable<Sensor>> GetAllSensorsAsync()
+        //{
+        //    return await _context.Sensors
+        //        .Include(s => s.AQIData) // ✅ Ensures AQIData is loaded
+        //        .ToListAsync(); // Returns List<Sensor>, which is implicitly convertible to IEnumerable<Sensor>
+        //}
+
+
         public async Task<Sensor> GetSensorByIdAsync(int id)
         {
             return await _context.Sensors.FindAsync(id);
