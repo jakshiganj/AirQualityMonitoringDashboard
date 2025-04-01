@@ -8,6 +8,7 @@ namespace AirQualityMonitoringDashboard.Repositories
     {
         Task<IEnumerable<Sensor>> GetAllSensorsAsync();
         Task<Sensor> GetSensorByLocation(double latitude, double longitude);
+        Task<Sensor> GetSensorById(string sensorId);
         Task AddSensorAsync(Sensor sensor);
         Task UpdateSensorAsync(Sensor sensor);
         Task DeleteSensorAsync(int id);

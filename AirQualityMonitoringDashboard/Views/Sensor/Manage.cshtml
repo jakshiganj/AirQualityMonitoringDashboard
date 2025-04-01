@@ -1,5 +1,6 @@
 @model List<Sensor>
 
+    <!DOCTYPE html>
     <html lang="en">
 
     <head>
@@ -35,7 +36,7 @@
         </div>
         <div style="display: flex; justify-content: space-between; margin-top: 30px;">
             <h2>Connected Sensors</h2>
-            <button type="button" class="btn btn-primary">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addSensorModal">
                 Add Sensor
             </button>
         </div>
@@ -84,7 +85,8 @@
                             </div>
                         </td>
                         <td>
-                            <button type="button" class="btn btn-primary">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editSensorModal"
+                                    onclick="populateEditForm( '@sensor.Name', '@sensor.Type', '@sensor.Location', '@sensor.Description')">
                                 Edit
                             </button>
                             <button type="button" class="btn btn-primary">
@@ -96,6 +98,105 @@
                 </tbody>
             </table>
         </div>
+
+        <!-- Add Sensor Modal -->
+        <div class="modal fade" id="addSensorModal" tabindex="-1" role="dialog" aria-labelledby="addSensorModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addSensorTitle">Add new Sensor</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="addSensorForm" method="post" action="">
+                            <div>
+                                <label for="addSensorName">Sensor Name</label>
+                                <input type="text" id="addSensorName" class="form-control" />
+                            </div>
+                            <div>
+                                <label for="addSensorLocation">Sensor Location</label>
+                                <input type="text" id="addSensorLocation" class="form-control" />
+                            </div>
+                            <div>
+                                <label for="addSensorType">Sensor Type</label>
+                                <input type="text" id="addSensorType" class="form-control" />
+                            </div>
+                            <div>
+                                <label for="addSensorDescription">Sensor Description</label>
+                                <input type="text" id="addSensorDescription" class="form-control" />
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" onclick="AddSenorForm()">Add Sensor</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Edit Sensor Modal -->
+        <div class="modal fade" id="editSensorModal" tabindex="-1" role="dialog" aria-labelledby="editSensorModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editSensorTitle">Edit Sensor Details</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="editSensorForm" method="post" action="">
+                            <div style="padding-bottom: 10;">
+                                <label for="editSensorName">Sensor Name</label>
+                                <input type="text" id="editSensorName" class="form-control" />
+                            </div>
+                            <div style="padding-bottom: 10;">
+                                <label for="editSensorLocation">Sensor Location</label>
+                                <input type="text" id="editSensorLocation" class="form-control" />
+                            </div>
+                            <div style="padding-bottom: 10;">
+                                <label for="editSensorType">Sensor Type</label>
+                                <input type="text" id="editSensorType" class="form-control" />
+                            </div>
+                            <div style="padding-bottom: 10;">
+                                <label for="editSensorDescription">Sensor Description</label>
+                                <input type="text" id="editSensorDescription" class="form-control" />
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" onclick="UpdateSensorForm()">Update Sensor</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function populateEditForm(type, name, location, description) {
+                $('#editSensorType').val(type);
+                $('#editSensorName').val(name);
+                $('#editSensorLocation').val(location);
+                $('#editSensorDescription').val(description);
+            }
+
+            function AddSenorForm(type, name, location, description) {
+                var type = $('#addSensorType').val();
+                var name = $('#addSensorName').val();
+                var location = $('#addSenorLocation').val();
+                var description = $('#addSensorDescription').val();
+            }
+
+            function UpdateSensorForm(type, name, location, description) {
+                var type = $('#addSensorType').val();
+                var name = $('#addSensorName').val();
+                var location = $('#addSenorLocation').val();
+                var description = $('#addSensorDescription').val();
+            }
+        </script>
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
                 integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
                 crossorigin="anonymous"></script>
