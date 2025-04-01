@@ -1,0 +1,79 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colombo Air Quality Dashboard</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+</head>
+<body>
+    <div class="dashboard-container">
+        <header>
+            <h1>Colombo Air Quality Monitor Dashboard</h1>
+            <div class="current-date" id="currentDate"></div>
+
+            <!-- dark mode toggle -->
+            <div class="mode-toggle">
+                <label class="switch">
+                    <input type="checkbox" id="modeSwitch">
+                    <span class="slider round"></span>
+                </label>
+                <span class="mode-label">Light</span>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <!-- map view -->
+            <div class="map-container">
+                <div id="map"></div>
+            </div>
+
+            <!-- Historical Data Visualization -->
+            <div class="historical-container">
+                <div class="sensor-selector">
+                    <label for="sensorSelect">Select Sensor:</label>
+                    <select id="sensorSelect">
+                        <option value="">Select a sensor</option>
+                        @foreach (var sensor in Model.Sensors)
+                        {
+                            <option value="@sensor.SensorId">@sensor.LocationName</option>
+                        }
+                    </select>
+                </div>
+                <div class="chart-container">
+                    <canvas id="aqiChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Legend -->
+            <div class="legend-container">
+                <h3>AQI Categories</h3>
+                <div class="legend-item good">
+                    <span class="color-box"></span> 0-50: Good
+                </div>
+                <div class="legend-item moderate">
+                    <span class="color-box"></span> 51-100: Moderate
+                </div>
+                <div class="legend-item unhealthy-sensitive">
+                    <span class="color-box"></span> 101-150: Unhealthy for Sensitive Groups
+                </div>
+                <div class="legend-item unhealthy">
+                    <span class="color-box"></span> 151-200: Unhealthy
+                </div>
+                <div class="legend-item very-unhealthy">
+                    <span class="color-box"></span> 201-300: Very Unhealthy
+                </div>
+                <div class="legend-item hazardous">
+                    <span class="color-box"></span> 301+: Hazardous
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="dashboard.js"></script>
+</body>
+</html>
