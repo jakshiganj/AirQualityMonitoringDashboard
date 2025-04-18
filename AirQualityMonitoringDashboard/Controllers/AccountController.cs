@@ -45,7 +45,7 @@ namespace AirQualityMonitoringDashboard.Controllers
         {
             return View();
         }
-
+        
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
@@ -148,11 +148,13 @@ namespace AirQualityMonitoringDashboard.Controllers
                 return View(model);
             }
         }
-
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
             await signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
+
     }
 }
