@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AirQualityMonitoringDashboard.Models;
 
@@ -12,5 +13,8 @@ namespace AirQualityMonitoringDashboard.Repositories
 
         // Add GetLatestReadings method to retrieve the latest readings (you can adjust the return type as needed)
         Task<IEnumerable<AQIData>> GetLatestReadingsAsync(int sensorId, int topCount);  // Example: Get latest readings for a sensor
-    }
+
+        // Method for historical data trends filtering
+        Task<IEnumerable<AQIData>> GetHistoricalReadingsAsync(int sensorId, DateTime startDate, DateTime endDate); 
+        }
 }
