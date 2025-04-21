@@ -15,30 +15,27 @@ namespace AirQualityMonitoringDashboard.Services
         private readonly ISensorRepository _sensorRepository;
         private readonly string[] _apiUrls;
 
-        public AQIDataService(HttpClient httpClient, IAQIDataRepository aqiRepository, ISensorRepository sensorRepository, IConfiguration configuration)
+        public AQIDataService(
+            HttpClient httpClient,
+            IAQIDataRepository aqiRepository,
+            ISensorRepository sensorRepository,
+            IConfiguration configuration)
         {
             _httpClient = httpClient;
             _aqiRepository = aqiRepository;
             _sensorRepository = sensorRepository;
-            //_apiUrl = $"{configuration["AirQualityAPI:BaseUrl"]}?token={configuration["AirQualityAPI:ApiKey"]}";
-            //_apiUrl = "https://api.waqi.info/feed/A44956/?token=6cd062a794368ba7c64fa81812167409b7bc3949";
-            //_apiUrl = "https://api.waqi.info/feed/A132322/?token=6cd062a794368ba7c64fa81812167409b7bc3949";
-            _apiUrls = new string[]
-        {
-            "https://api.waqi.info/feed/A44956/?token=6cd062a794368ba7c64fa81812167409b7bc3949",
-            "https://api.waqi.info/feed/A132322/?token=6cd062a794368ba7c64fa81812167409b7bc3949"  // Add other API URLs here
-        };
+            _apiUrls = configuration.GetSection("AirQualityAPI:Urls").Get<string[]>();
         }
 
         public async Task FetchAndStoreAirQualityData()
         {
             foreach (var apiUrl in _apiUrls)
             {
-                HttpResponseMessage response = await _httpClient.GetAsync(apiUrl);
-
-
-                if (response.IsSuccessStatusCode)
+                try
                 {
+                    HttpResponseMessage response = await _httpClient.GetAsync(apiUrl);
+                    response.EnsureSuccessStatusCode();
+
                     string json = await response.Content.ReadAsStringAsync();
                     JObject data = JObject.Parse(json);
 
@@ -47,27 +44,23 @@ namespace AirQualityMonitoringDashboard.Services
                         double latitude = (double)data["data"]["city"]["geo"][0];
                         double longitude = (double)data["data"]["city"]["geo"][1];
 
-                        // Find the sensor in the database
                         var sensor = await _sensorRepository.GetSensorByLocation(latitude, longitude);
-
-
                         if (sensor != null)
                         {
                             var reading = new AQIData
                             {
                                 SensorId = sensor.Id,
                                 AQI = ParseInt(data["data"]["aqi"]),
-                                //AQI = (int)data["data"]["aqi"],
-                                PM10 = data["data"]["iaqi"]["pm10"]?["v"]?.ToObject<float?>(),
-                                PM25 = data["data"]["iaqi"]["pm25"]?["v"]?.ToObject<float?>(),
-                                CO = data["data"]["iaqi"]["co"]?["v"]?.ToObject<float?>(),
-                                NO2 = data["data"]["iaqi"]["no2"]?["v"]?.ToObject<float?>(),
-                                O3 = data["data"]["iaqi"]["o3"]?["v"]?.ToObject<float?>(),
-                                SO2 = data["data"]["iaqi"]["so2"]?["v"]?.ToObject<float?>(),
-                                Temperature = data["data"]["iaqi"]["t"]?["v"]?.ToObject<float?>(),
-                                Humidity = data["data"]["iaqi"]["h"]?["v"]?.ToObject<float?>(),
-                                Pressure = data["data"]["iaqi"]["p"]?["v"]?.ToObject<float?>(),
-                                WindSpeed = data["data"]["iaqi"]["w"]?["v"]?.ToObject<float?>(),
+                                PM10 = ParseFloat(data["data"]["iaqi"]["pm10"]?["v"]),
+                                PM25 = ParseFloat(data["data"]["iaqi"]["pm25"]?["v"]),
+                                CO = ParseFloat(data["data"]["iaqi"]["co"]?["v"]),
+                                NO2 = ParseFloat(data["data"]["iaqi"]["no2"]?["v"]),
+                                O3 = ParseFloat(data["data"]["iaqi"]["o3"]?["v"]),
+                                SO2 = ParseFloat(data["data"]["iaqi"]["so2"]?["v"]),
+                                Temperature = ParseFloat(data["data"]["iaqi"]["t"]?["v"]),
+                                Humidity = ParseFloat(data["data"]["iaqi"]["h"]?["v"]),
+                                Pressure = ParseFloat(data["data"]["iaqi"]["p"]?["v"]),
+                                WindSpeed = ParseFloat(data["data"]["iaqi"]["w"]?["v"]),
                                 RecordedAt = DateTime.UtcNow
                             };
 
@@ -75,24 +68,23 @@ namespace AirQualityMonitoringDashboard.Services
                         }
                     }
                 }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error fetching data from {apiUrl}: {ex.Message}");
+                }
             }
         }
-    
-    private int ParseInt(JToken value)
+
+        private int ParseInt(JToken value)
         {
-            if (value == null)
-            {
-                return 0; // Default value if null
-            }
+            if (value == null) return 0;
+            return int.TryParse(value.ToString(), out int result) ? result : 0;
+        }
 
-            int parsedValue;
-            if (int.TryParse(value.ToString(), out parsedValue))
-            {
-                return parsedValue;
-            }
-
-            // If parsing fails, handle the case (e.g., return a default value or log an error)
-            return 0;
+        private float? ParseFloat(JToken value)
+        {
+            if (value == null) return null;
+            return float.TryParse(value.ToString(), out float result) ? result : null;
         }
     }
 }
