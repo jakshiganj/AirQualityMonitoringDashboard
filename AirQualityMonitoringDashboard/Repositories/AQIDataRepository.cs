@@ -41,5 +41,14 @@ namespace AirQualityMonitoringDashboard.Repositories
                 .Take(topCount)
                 .ToListAsync();
         }
+
+        // Method for historical data filtering
+        public async Task<IEnumerable<AQIData>> GetHistoricalReadingsAsync(int sensorId, DateTime startDate, DateTime endDate)
+        {
+            return await _context.AQIData
+                .Where(r => r.SensorId == sensorId && r.RecordedAt >= startDate && r.RecordedAt <= endDate)
+                .OrderBy(r => r.RecordedAt) // Order chronologically for charts
+                .ToListAsync(); //
+        }
     }
 }
