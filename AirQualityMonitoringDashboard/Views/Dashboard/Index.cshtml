@@ -1,27 +1,31 @@
-﻿
+﻿@model IEnumerable<Sensor>
+@{
+    ViewData["Title"] = "Air Quality Dashboard";
+}
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Colombo Air Quality Dashboard</title>
+    <title>@ViewData["Title"]</title>
     <link rel="stylesheet" href="~/css/dashboard.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 </head>
 <body>
     <div class="dashboard-container">
         <header>
-            <h1>Colombo Air Quality Monitor Dashboard</h1>
-            <div class="current-date" id="currentDate">@DateTime.Now.ToString("dddd, MMMM dd, yyyy")</div>
-
-            <!-- Dark mode toggle -->
-            <div class="mode-toggle">
-                <label class="switch">
-                    <input type="checkbox" id="modeSwitch">
-                    <span class="slider round"></span>
-                </label>
-                <span class="mode-label">Light</span>
+            <h1>Colombo Air Quality Monitoring Dashboard</h1>
+            <div class="current-date" id="currentDate"></div>
+            <div class="user-controls">
+                <div class="mode-toggle">
+                    <label class="switch">
+                        <input type="checkbox" id="modeSwitch">
+                        <span class="slider round"></span>
+                    </label>
+                    <span class="mode-label">Light</span>
+                </div>
+                <a href="/Account/Logout" class="logout-btn">Logout</a>
             </div>
         </header>
 
@@ -37,10 +41,10 @@
                     <label for="sensorSelect">Select Sensor:</label>
                     <select id="sensorSelect">
                         <option value="">Select a sensor</option>
-                        @* @foreach (var sensor in Model.Sensor.Id) *@
-                        @* { *@
-                        @*     <option value="@sensor.Id">@sensor.Location</option> *@
-                        @* } *@
+                        @foreach (var sensor in Model)
+                        {
+                            <option value="@sensor.Id">@sensor.Name (@sensor.Location)</option>
+                        }
                     </select>
                 </div>
                 <div class="chart-container">

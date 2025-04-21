@@ -1,10 +1,10 @@
-﻿using System;
+﻿using AirQualityMonitoringDashboard.Data;
+using AirQualityMonitoringDashboard.Models;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AirQualityMonitoringDashboard.Data;
-using AirQualityMonitoringDashboard.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace AirQualityMonitoringDashboard.Repositories
 {
@@ -17,27 +17,27 @@ namespace AirQualityMonitoringDashboard.Repositories
             _context = context;
         }
 
-        // ✅ Fetch all sensors without tracking (prevents update conflicts)
         public async Task<IEnumerable<Sensor>> GetAllSensorsAsync()
         {
-            return await _context.Sensors.AsNoTracking().ToListAsync();
+            return await _context.Sensors
+                .AsNoTracking()
+                .ToListAsync();
         }
 
-        // ✅ Get sensor by ID with exception handling
-        public async Task<Sensor> GetSensorByIdAsync(int id)
+        public async Task<Sensor> GetSensorByLocation(double latitude, double longitude)
         {
-            try
-            {
-                return await _context.Sensors.AsNoTracking().FirstOrDefaultAsync(s => s.Id == id);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error fetching sensor: {ex.Message}");
-                return null;
-            }
+            return await _context.Sensors
+                .AsNoTracking()
+                .FirstOrDefaultAsync(s => s.Latitude == latitude && s.Longitude == longitude);
         }
 
-        // ✅ Ensure CreatedAt is set before adding
+        public async Task<Sensor> GetSensorByIdAsync(int sensorId)
+        {
+            return await _context.Sensors
+                .AsNoTracking()
+                .FirstOrDefaultAsync(s => s.Id == sensorId);
+        }
+
         public async Task AddSensorAsync(Sensor sensor)
         {
             if (sensor.CreatedAt == default)
@@ -49,7 +49,6 @@ namespace AirQualityMonitoringDashboard.Repositories
             await _context.SaveChangesAsync();
         }
 
-        // ✅ Fix tracking issue when updating sensor
         public async Task UpdateSensorAsync(Sensor sensor)
         {
             var existingSensor = await _context.Sensors.FindAsync(sensor.Id);
@@ -62,7 +61,6 @@ namespace AirQualityMonitoringDashboard.Repositories
             await _context.SaveChangesAsync();
         }
 
-        // ✅ Fetch sensor before deleting to prevent tracking issues
         public async Task DeleteSensorAsync(int id)
         {
             var sensor = await _context.Sensors.FindAsync(id);
@@ -75,14 +73,6 @@ namespace AirQualityMonitoringDashboard.Repositories
             {
                 throw new KeyNotFoundException("Sensor not found.");
             }
-        }
-
-        // ✅ Fetch sensor by location
-        public async Task<Sensor> GetSensorByLocation(double latitude, double longitude)
-        {
-            return await _context.Sensors
-                .AsNoTracking()
-                .FirstOrDefaultAsync(s => s.Latitude == latitude && s.Longitude == longitude);
         }
     }
 }

@@ -6,7 +6,7 @@ namespace AirQualityMonitoringDashboard.Models
     {
         public int Id { get; set; }  // Primary key
         public int SensorId { get; set; }  // Foreign key linking to Sensor
-        public int AQI { get; set; }  // ✅ Ensure this property exists
+        public int AQI { get; set; }  
         public float? PM10 { get; set; }
         public float? PM25 { get; set; }
         public float? CO { get; set; }
