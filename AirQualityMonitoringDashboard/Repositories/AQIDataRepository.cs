@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using AirQualityMonitoringDashboard.Data;
+using AirQualityMonitoringDashboard.Models;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using AirQualityMonitoringDashboard.Models;
-using AirQualityMonitoringDashboard.Data;
 
 namespace AirQualityMonitoringDashboard.Repositories
 {
@@ -32,14 +33,13 @@ namespace AirQualityMonitoringDashboard.Repositories
             return await _context.AQIData.FindAsync(id);
         }
 
-        // Implement GetLatestReadingsAsync method
         public async Task<IEnumerable<AQIData>> GetLatestReadingsAsync(int sensorId, int topCount)
         {
             return await _context.AQIData
-                                 .Where(r => r.SensorId == sensorId)  // Filter by SensorId
-                                 .OrderByDescending(r => r.RecordedAt)  // Sort by RecordedAt in descending order
-                                 .Take(topCount)  // Get the top 'topCount' readings
-                                 .ToListAsync();
+                .Where(r => r.SensorId == sensorId)
+                .OrderByDescending(r => r.RecordedAt)
+                .Take(topCount)
+                .ToListAsync();
         }
     }
 }
