@@ -1,12 +1,11 @@
 ﻿using AirQualityMonitoringDashboard.Models;
 using AirQualityMonitoringDashboard.Repositories;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace AirQualityMonitoringDashboard.Controllers
 {
-    [Authorize]
+
     public class DashboardController : Controller
     {
         private readonly ISensorRepository _sensorRepository;
