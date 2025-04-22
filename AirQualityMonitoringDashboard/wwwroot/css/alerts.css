@@ -1,0 +1,391 @@
+﻿/* Notification System Styles */
+.notification-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-right: 15px;
+}
+
+.notification-icon {
+    position: relative;
+    cursor: pointer;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1001; /* Ensure it's above the dropdown */
+}
+
+.bell-icon {
+    font-size: 24px;
+    color: white;
+}
+
+.notification-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: #ff4d4d;
+    color: white;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+    .notification-badge.active {
+        opacity: 1;
+    }
+
+.notification-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 320px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    z-index: 1000;
+    display: none;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+    .notification-dropdown.show {
+        display: block !important; /* Use !important to override any other styles */
+    }
+
+.notification-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    background-color: #0288d1;
+    color: white;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+    .notification-header h3 {
+        margin: 0;
+        font-size: 16px;
+    }
+
+    .notification-header button {
+        background: transparent;
+        border: 1px solid white;
+        color: white;
+        padding: 4px 8px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 12px;
+        transition: all 0.2s;
+    }
+
+        .notification-header button:hover {
+            background-color: white;
+            color: #0288d1;
+        }
+
+.notification-body {
+    max-height: 350px;
+    overflow-y: auto;
+    padding: 0;
+    min-height: 100px; /* Ensure there's space for content */
+}
+
+.alert-item {
+    padding: 12px 15px;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.2s;
+}
+
+    .alert-item:hover {
+        background-color: rgba(0,0,0,0.03);
+    }
+
+    .alert-item:last-child {
+        border-bottom: none;
+    }
+
+.alert-info {
+    flex: 1;
+}
+
+.alert-location {
+    font-weight: bold;
+    margin-bottom: 3px;
+}
+
+.alert-message {
+    font-size: 14px;
+    color: #555;
+}
+
+.alert-time {
+    font-size: 12px;
+    color: #888;
+    margin-top: 3px;
+}
+
+.alert-close {
+    padding: 2px 6px;
+    background: transparent;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    color: #888;
+    margin-left: 10px;
+    transition: all 0.2s;
+}
+
+    .alert-close:hover {
+        background-color: #f44336;
+        color: white;
+        border-color: #f44336;
+    }
+
+.empty-notification {
+    padding: 20px;
+    text-align: center;
+    color: #888;
+    font-style: italic;
+}
+
+/* LIGHT MODE ALERT STYLING */
+
+/* Good alerts styling */
+.alert-good {
+    border-left: 5px solid #00e400;
+    background-color: rgba(0, 228, 0, 0.1); /* Light green background */
+}
+
+.alert-item.alert-good .alert-location {
+    color: #006600; /* Darker green for better contrast */
+}
+
+.alert-item.alert-good .alert-message {
+    color: #333; /* Darker text for better readability */
+    font-weight: 500; /* Slightly bolder text */
+}
+
+/* Moderate alerts styling */
+.alert-moderate {
+    border-left: 5px solid #ffff00;
+    background-color: rgba(255, 255, 0, 0.1); /* Light yellow background */
+}
+
+.alert-item.alert-moderate .alert-location {
+    color: #806600; /* Darker yellow for better contrast */
+}
+
+.alert-item.alert-moderate .alert-message {
+    color: #333; /* Darker text for better readability */
+    font-weight: 500; /* Slightly bolder text */
+}
+
+/* Other alert categories */
+.alert-unhealthy-sensitive {
+    border-left: 5px solid #ff7e00;
+}
+
+.alert-unhealthy {
+    border-left: 5px solid #ff0000;
+}
+
+.alert-very-unhealthy {
+    border-left: 5px solid #8f3f97;
+}
+
+.alert-hazardous {
+    border-left: 5px solid #7e0023;
+}
+
+/* DARK MODE STYLING - ENHANCED WITH HIGHER SPECIFICITY AND !IMPORTANT */
+
+/* Main dropdown background in dark mode */
+body.dark-mode .notification-dropdown {
+    background-color: #1a1a1a !important;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.6) !important;
+    border: 1px solid #333 !important;
+}
+
+/* Header styling in dark mode */
+body.dark-mode .notification-header {
+    background-color: #0d47a1 !important; /* Deeper blue for header */
+    border-bottom: 1px solid #333 !important;
+}
+
+    body.dark-mode .notification-header h3 {
+        text-shadow: 0 1px 2px rgba(0,0,0,0.3) !important;
+        color: white !important;
+    }
+
+    body.dark-mode .notification-header button {
+        background-color: rgba(255,255,255,0.1) !important;
+        border: 1px solid rgba(255,255,255,0.3) !important;
+        color: white !important;
+    }
+
+        body.dark-mode .notification-header button:hover {
+            background-color: rgba(255,255,255,0.9) !important;
+            color: #0d47a1 !important;
+        }
+
+/* Basic alert item styling for all alert items in dark mode */
+body.dark-mode .alert-item {
+    background-color: #1a1a1a !important;
+    border-bottom: 1px solid rgba(255,255,255,0.05) !important;
+    color: white !important;
+}
+
+    body.dark-mode .alert-item:hover {
+        background-color: rgba(255,255,255,0.05) !important;
+        transform: translateY(-1px) !important;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.2) !important;
+    }
+
+/* Generic text styling for all alerts in dark mode */
+body.dark-mode .alert-location {
+    color: rgba(255,255,255,0.9) !important;
+    text-shadow: 0 1px 1px rgba(0,0,0,0.5) !important;
+}
+
+body.dark-mode .alert-message {
+    color: rgba(255,255,255,0.8) !important;
+}
+
+body.dark-mode .alert-time {
+    color: rgba(255,255,255,0.5) !important;
+}
+
+body.dark-mode .alert-close {
+    background-color: rgba(0,0,0,0.2) !important;
+    border: 1px solid rgba(255,255,255,0.2) !important;
+    color: rgba(255,255,255,0.6) !important;
+}
+
+    body.dark-mode .alert-close:hover {
+        background-color: rgba(244,67,54,0.8) !important;
+        color: white !important;
+        border-color: transparent !important;
+    }
+
+/* Specific alert category styling for dark mode with high specificity and !important */
+
+/* Good alerts - dark green theme */
+body.dark-mode .alert-item.alert-good {
+    background-color: rgba(0, 77, 0, 0.4) !important;
+    border-left: 5px solid #00e400 !important;
+}
+
+    body.dark-mode .alert-item.alert-good .alert-location {
+        color: #4caf50 !important;
+    }
+
+    body.dark-mode .alert-item.alert-good .alert-message {
+        color: rgba(255,255,255,0.9) !important;
+    }
+
+/* Moderate alerts - amber theme */
+body.dark-mode .alert-item.alert-moderate {
+    background-color: rgba(77, 65, 0, 0.4) !important;
+    border-left: 5px solid #ffeb3b !important;
+}
+
+    body.dark-mode .alert-item.alert-moderate .alert-location {
+        color: #ffeb3b !important;
+    }
+
+    body.dark-mode .alert-item.alert-moderate .alert-message {
+        color: rgba(255,255,255,0.9) !important;
+    }
+
+/* Unhealthy for sensitive groups - orange theme */
+body.dark-mode .alert-item.alert-unhealthy-sensitive {
+    background-color: rgba(77, 40, 0, 0.4) !important;
+    border-left: 5px solid #ff7e00 !important;
+}
+
+    body.dark-mode .alert-item.alert-unhealthy-sensitive .alert-location {
+        color: #ff9800 !important;
+    }
+
+    body.dark-mode .alert-item.alert-unhealthy-sensitive .alert-message {
+        color: rgba(255,255,255,0.9) !important;
+    }
+
+/* Unhealthy alerts - red theme */
+body.dark-mode .alert-item.alert-unhealthy {
+    background-color: rgba(77, 0, 0, 0.4) !important;
+    border-left: 5px solid #ff0000 !important;
+}
+
+    body.dark-mode .alert-item.alert-unhealthy .alert-location {
+        color: #f44336 !important;
+    }
+
+    body.dark-mode .alert-item.alert-unhealthy .alert-message {
+        color: rgba(255,255,255,0.9) !important;
+    }
+
+/* Very unhealthy alerts - purple theme */
+body.dark-mode .alert-item.alert-very-unhealthy {
+    background-color: rgba(51, 0, 77, 0.4) !important;
+    border-left: 5px solid #9c27b0 !important;
+}
+
+    body.dark-mode .alert-item.alert-very-unhealthy .alert-location {
+        color: #ba68c8 !important;
+    }
+
+    body.dark-mode .alert-item.alert-very-unhealthy .alert-message {
+        color: rgba(255,255,255,0.9) !important;
+    }
+
+/* Hazardous alerts - deep red theme */
+body.dark-mode .alert-item.alert-hazardous {
+    background-color: rgba(77, 0, 25, 0.4) !important;
+    border-left: 5px solid #7e0023 !important;
+}
+
+    body.dark-mode .alert-item.alert-hazardous .alert-location {
+        color: #d32f2f !important;
+    }
+
+    body.dark-mode .alert-item.alert-hazardous .alert-message {
+        color: rgba(255,255,255,0.9) !important;
+    }
+
+/* Empty notification */
+body.dark-mode .empty-notification {
+    color: rgba(255,255,255,0.5) !important;
+    font-style: italic !important;
+}
+
+/* Pulse animation for notification icon when new alerts arrive */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.pulse {
+    animation: pulse 0.5s 2;
+}

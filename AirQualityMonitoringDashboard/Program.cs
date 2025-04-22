@@ -24,6 +24,8 @@ builder.Services.AddScoped<ISensorRepository, SensorRepository>();
 builder.Services.AddHttpClient<AQIDataService>();
 builder.Services.AddHostedService<AirQualityBackgroundService>();
 
+builder.Services.AddSingleton<InMemoryAlertService>();
+builder.Services.AddHostedService<AlertBackgroundService>();
 // Configure Identity
 builder.Services.AddIdentity<User, IdentityRole>(options =>
 {
