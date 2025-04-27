@@ -1,8 +1,3 @@
-@model IEnumerable<Sensor>
-@{
-    ViewData["Title"] = "Air Quality Dashboard";
-}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,10 +7,9 @@
     <link rel="stylesheet" href="~/css/alerts.css">
     <link rel="stylesheet" href="~/css/dashboard.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-
 </head>
-<body>
-    <div class="dashboard-container">
+<body style="display: flex; flex-direction: column; min-height: 100vh;">
+    <div class="dashboard-container" style="flex-grow: 1;">
         <header>
             <h1>Colombo Air Quality Monitoring Dashboard</h1>
             <div class="current-date" id="currentDate"></div>
@@ -46,13 +40,12 @@
             </div>
         </header>
 
-        <div class="main-content">
-            <div class="map-container">
-                <div id="map"></div>
+        <div class="main-content" style="flex-grow: 1;">
+            <div class="map-container" style="flex-grow: 1; position: relative;">
+                <div id="map" style="height: 100%;"></div>
             </div>
 
             <div class="historical-container">
-
                 <div class="sensor-selector">
                     <label for="sensorSelect">Select Sensor:</label>
                     <select id="sensorSelect" class="form-select mb-3" aria-label="Select sensor for historical data">
@@ -100,6 +93,7 @@
             </div>
         </div>
     </div>
+
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>

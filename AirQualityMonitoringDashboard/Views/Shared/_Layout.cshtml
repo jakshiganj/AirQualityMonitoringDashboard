@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/AirQualityMonitoringDashboard.styles.css" asp-append-version="true" />
 </head>
-<body>
+<body style="display: flex; flex-direction: column; min-height: 100vh;">
     <header>
         <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
@@ -30,6 +30,9 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" href="@Url.Action("Manage", "Sensor")">Manage Sensors</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="@Url.Action("Index", "UserManagement")">Manage Users</a>
+                            </li>
                         }
                     </ul>
                     <!-- Partial view for login/logout -->
@@ -40,18 +43,18 @@
     </header>
 
     <!-- Main content area -->
-    <div class="container">
+    <div class="container" style="flex-grow: 1;">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
     <!-- Footer -->
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2023 - AirQualityMonitoringDashboard - <a href="@Url.Action("Privacy", "Home")">Privacy</a>
-        </div>
-    </footer>
+    @* <footer class="border-top footer text-muted"> *@
+    @*     <div class="container"> *@
+    @*         &copy; 2023 - AirQualityMonitoringDashboard - <a href="@Url.Action("Privacy", "Home")">Privacy</a> *@
+    @*     </div> *@
+    @* </footer> *@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
