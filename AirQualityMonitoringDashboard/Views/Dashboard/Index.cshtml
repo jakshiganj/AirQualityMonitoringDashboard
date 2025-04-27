@@ -9,6 +9,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/alerts.css">
     <link rel="stylesheet" href="~/css/dashboard.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 </head>
@@ -26,6 +27,22 @@
                     <span class="mode-label">Light</span>
                 </div>
                 <a href="/Account/Logout" class="logout-btn">Logout</a>
+            </div>
+            <div class="notification-container">
+                <div class="notification-icon" id="notificationIcon">
+                    <span class="bell-icon">🔔</span>
+                    <span class="notification-badge" id="notificationBadge">0</span>
+                </div>
+                <div class="notification-dropdown" id="notificationDropdown">
+                    <div class="notification-header">
+                        <h3>Air Quality Alerts</h3>
+                        <button id="clearAllAlerts">Clear All</button>
+                    </div>
+                    <div class="notification-body" id="alertNotifications">
+                        <!-- Alerts will be populated here dynamically -->
+                        <div class="empty-notification">No active alerts</div>
+                    </div>
+                </div>
             </div>
         </header>
 
@@ -80,5 +97,6 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="~/js/dashboard.js"></script>
+    <script src="~/js/alerts.js"></script>
 </body>
 </html>
