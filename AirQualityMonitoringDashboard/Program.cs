@@ -24,6 +24,8 @@ builder.Services.AddScoped<ISensorRepository, SensorRepository>();
 builder.Services.AddHttpClient<AQIDataService>();
 builder.Services.AddHostedService<AirQualityBackgroundService>();
 
+builder.Services.AddSingleton<InMemoryAlertService>();
+builder.Services.AddHostedService<AlertBackgroundService>();
 // Configure Identity
 builder.Services.AddIdentity<User, IdentityRole>(options =>
 {
@@ -55,16 +57,26 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+//app.MapControllerRoute(
+//    name: "dashboard",
+//    pattern: "dashboard/{action=Index}/{id?}",
+//    defaults: new { controller = "Dashboard" }
+//);
+
+//app.MapControllerRoute(
+//    name: "default",
+//    pattern: "{controller=Account}/{action=Login}/{id?}");
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Dashboard}/{action=Index}/{id?}");
+
+// Optional: manual Dashboard route (not strictly needed)
 app.MapControllerRoute(
     name: "dashboard",
     pattern: "dashboard/{action=Index}/{id?}",
     defaults: new { controller = "Dashboard" }
 );
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Account}/{action=Login}/{id?}");
-
 app.MapControllers();
 
 using (var scope = app.Services.CreateScope())

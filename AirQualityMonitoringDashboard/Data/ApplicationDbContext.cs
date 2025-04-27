@@ -17,6 +17,8 @@ namespace AirQualityMonitoringDashboard.Data
         // DbSet for Sensors
         public DbSet<Sensor> Sensors { get; set; }
 
+        public DbSet<Alert> Alerts { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder); // Calls the base class to add Identity-related configurations
@@ -27,6 +29,12 @@ namespace AirQualityMonitoringDashboard.Data
                 .WithOne(a => a.Sensor)
                 .HasForeignKey(a => a.SensorId)
                 .OnDelete(DeleteBehavior.Cascade);  // Ensure cascading delete of AQIData when Sensor is deleted
+
+            modelBuilder.Entity<Alert>()
+                .HasOne(a => a.Sensor)
+                .WithMany()
+                .HasForeignKey(a => a.SensorId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
