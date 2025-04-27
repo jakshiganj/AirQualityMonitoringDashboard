@@ -1,0 +1,81 @@
+﻿@model List<User>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="text-center">
+            <h1>User Management</h1>
+        </div>
+
+        <div class="d-flex justify-content-between my-3">
+            <h2>Users List</h2>
+        </div>
+
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Model)
+                {
+                    <tr>
+                        <td>@user.FullName</td>
+                        <td>@user.Email</td>
+                        <td>
+                            <!-- Edit Button -->
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editUserModal-@user.Id">Edit</button>
+
+                            <!-- Delete Button -->
+                            <form asp-action="Delete" asp-controller="UserManagement" method="post" class="d-inline">
+                                <input type="hidden" name="id" value="@user.Id" />
+                                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?');">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Edit User Modals -->
+    @foreach (var user in Model)
+    {
+        <div class="modal fade" id="editUserModal-@user.Id">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5>Edit User - @user.FullName</h5>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <form asp-action="Edit" asp-controller="UserManagement" method="post">
+                        <div class="modal-body">
+                            <input type="hidden" name="Id" value="@user.Id">
+                            <input type="text" name="FullName" value="@user.FullName" class="form-control mb-2" required>
+                            <input type="email" name="Email" value="@user.Email" class="form-control mb-2" required>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Update User</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    }
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
