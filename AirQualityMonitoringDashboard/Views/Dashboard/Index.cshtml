@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Sensor>
+@model IEnumerable<Sensor>
 @{
     ViewData["Title"] = "Air Quality Dashboard";
 }
@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="~/css/alerts.css">
     <link rel="stylesheet" href="~/css/dashboard.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
 </head>
 <body>
     <div class="dashboard-container">
@@ -47,29 +48,36 @@
         </header>
 
         <div class="main-content">
-            <!-- Map view -->
             <div class="map-container">
                 <div id="map"></div>
             </div>
 
-            <!-- Historical Data Visualization -->
             <div class="historical-container">
+
                 <div class="sensor-selector">
                     <label for="sensorSelect">Select Sensor:</label>
-                    <select id="sensorSelect">
+                    <select id="sensorSelect" class="form-select mb-3" aria-label="Select sensor for historical data">
                         <option value="">Select a sensor</option>
-                        @foreach (var sensor in Model)
+                        @if (Model != null) // Add null check for safety
                         {
-                            <option value="@sensor.Id">@sensor.Name (@sensor.Location)</option>
+                            @foreach (var sensor in Model)
+                            {
+                                <option value="@sensor.Id">@sensor.Name (@sensor.Location)</option>
+                            }
                         }
                     </select>
                 </div>
-                <div class="chart-container">
+
+                <div class="time-period-selector mb-3" role="group" aria-label="Select time period">
+                    <button type="button" class="btn btn-sm btn-outline-primary time-btn" data-period="day">Last 24 Hours</button>
+                    <button type="button" class="btn btn-sm btn-outline-primary time-btn" data-period="week">Last 7 Days</button>
+                    <button type="button" class="btn btn-sm btn-outline-primary time-btn" data-period="month">Last 30 Days</button>
+                </div>
+                <div class="chart-container" style="position: relative; height: 300px; width: 100%;">
                     <canvas id="aqiChart"></canvas>
                 </div>
             </div>
 
-            <!-- Legend -->
             <div class="legend-container">
                 <h3>AQI Categories</h3>
                 <div class="legend-item good">
@@ -96,7 +104,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="~/js/dashboard.js"></script>
     <script src="~/js/alerts.js"></script>
+    <script src="~/js/dashboard.js" asp-append-version="true"></script>
 </body>
 </html>
