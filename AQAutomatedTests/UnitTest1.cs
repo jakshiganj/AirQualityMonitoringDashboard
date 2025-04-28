@@ -1,4 +1,6 @@
 using NUnit.Framework;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 
 namespace AirQualityDashboardAutomated.Tests
 {
@@ -8,7 +10,10 @@ namespace AirQualityDashboardAutomated.Tests
         [Test]
         public void AlwaysPasses()
         {
-            Assert.IsTrue(true);
+            IWebDriver driver = new ChromeDriver();
+
+            driver.Navigate().GoToUrl("");
+            driver.Manage().Window.Maximize();
         }
     }
 }
