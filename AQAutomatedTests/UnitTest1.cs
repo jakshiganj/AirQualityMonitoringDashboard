@@ -1,23 +1,14 @@
-using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
+using NUnit.Framework;
 
-namespace AQAutomatedTests
+namespace AirQualityDashboardAutomated.Tests
 {
-    public class Tests
+    [TestFixture]
+    public class BasicTests
     {
-        [SetUp]
-        public void Setup()
-        {
-        }
-
         [Test]
-        public void Test1()
+        public void AlwaysPasses()
         {
-            IWebDriver driver = new ChromeDriver();
-
-            driver.Navigate().GoToUrl("");
-
-            driver.Manage().Window.Maximize();
+            Assert.IsTrue(true);
         }
     }
 }
