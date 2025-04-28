@@ -12,7 +12,7 @@ namespace AirQualityDashboardAutomated.Tests
         {
             IWebDriver driver = new ChromeDriver();
 
-            driver.Navigate().GoToUrl("");
+            driver.Navigate().GoToUrl("localhost:");
             driver.Manage().Window.Maximize();
         }
     }
