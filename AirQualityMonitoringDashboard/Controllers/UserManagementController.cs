@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Identity;
 using AirQualityMonitoringDashboard.Models; // Adjust namespace as needed
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
+[Authorize]
 public class UserManagementController : Controller
 {
     private readonly UserManager<User> _userManager;
