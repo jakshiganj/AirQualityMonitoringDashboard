@@ -14,7 +14,7 @@
         <li class="nav-item">
             <a class="nav-link text-dark" href="@Url.Action("Index", "UserManagement")">Manage Users</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item mt-2">
             <form class="form-inline" asp-controller="Account" asp-action="Logout" method="post" asp-route-returnUrl="@Url.Action("Index", "Dashboard")">
                 <button type="submit" class="btn btn-danger btn-sm">Logout</button>
             </form>
