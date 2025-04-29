@@ -1,5 +1,5 @@
 <h1>🌎 Air Quality Monitoring Dashboard</h1>
-Overview
+<b>Overview</b><br>
 The Air Quality Monitoring Dashboard is a real-time web platform that visualizes air quality data (AQI) collected from distributed sensors across Colombo.
 It provides live AQI updates, historical data retrieval, real-time alerts, and an interactive map with sensor locations, ensuring timely insights for users, researchers, and environmental agencies.
 
