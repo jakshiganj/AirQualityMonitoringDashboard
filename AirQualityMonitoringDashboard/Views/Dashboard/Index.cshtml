@@ -1,19 +1,15 @@
-﻿@model IEnumerable<Sensor>
-@{
-    ViewData["Title"] = "Air Quality Dashboard";
-}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/alerts.css">
     <link rel="stylesheet" href="~/css/dashboard.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 </head>
-<body>
-    <div class="dashboard-container">
+<body style="display: flex; flex-direction: column; min-height: 100vh;">
+    <div class="dashboard-container" style="flex-grow: 1;">
         <header>
             <h1>Colombo Air Quality Monitoring Dashboard</h1>
             <div class="current-date" id="currentDate"></div>
@@ -25,34 +21,55 @@
                     </label>
                     <span class="mode-label">Light</span>
                 </div>
-                <a href="/Account/Logout" class="logout-btn">Logout</a>
+            </div>
+            <div class="notification-container">
+                <div class="notification-icon" id="notificationIcon">
+                    <span class="bell-icon">🔔</span>
+                    <span class="notification-badge" id="notificationBadge">0</span>
+                </div>
+                <div class="notification-dropdown" id="notificationDropdown">
+                    <div class="notification-header">
+                        <h3>Air Quality Alerts</h3>
+                        <button id="clearAllAlerts">Clear All</button>
+                    </div>
+                    <div class="notification-body" id="alertNotifications">
+                        <!-- Alerts will be populated here dynamically -->
+                        <div class="empty-notification">No active alerts</div>
+                    </div>
+                </div>
             </div>
         </header>
 
-        <div class="main-content">
-            <!-- Map view -->
-            <div class="map-container">
-                <div id="map"></div>
+        <div class="main-content" style="flex-grow: 1;">
+            <div class="map-container" style="flex-grow: 1; position: relative;">
+                <div id="map" style="height: 100%;"></div>
             </div>
 
-            <!-- Historical Data Visualization -->
             <div class="historical-container">
                 <div class="sensor-selector">
                     <label for="sensorSelect">Select Sensor:</label>
-                    <select id="sensorSelect">
+                    <select id="sensorSelect" class="form-select mb-3" aria-label="Select sensor for historical data">
                         <option value="">Select a sensor</option>
-                        @foreach (var sensor in Model)
+                        @if (Model != null) // Add null check for safety
                         {
-                            <option value="@sensor.Id">@sensor.Name (@sensor.Location)</option>
+                            @foreach (var sensor in Model)
+                            {
+                                <option value="@sensor.Id">@sensor.Name (@sensor.Location)</option>
+                            }
                         }
                     </select>
                 </div>
-                <div class="chart-container">
+
+                <div class="time-period-selector mb-3" role="group" aria-label="Select time period">
+                    <button type="button" class="btn btn-sm btn-outline-primary time-btn" data-period="day">Last 24 Hours</button>
+                    <button type="button" class="btn btn-sm btn-outline-primary time-btn" data-period="week">Last 7 Days</button>
+                    <button type="button" class="btn btn-sm btn-outline-primary time-btn" data-period="month">Last 30 Days</button>
+                </div>
+                <div class="chart-container" style="position: relative; height: 300px; width: 100%;">
                     <canvas id="aqiChart"></canvas>
                 </div>
             </div>
 
-            <!-- Legend -->
             <div class="legend-container">
                 <h3>AQI Categories</h3>
                 <div class="legend-item good">
@@ -77,8 +94,10 @@
         </div>
     </div>
 
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="~/js/dashboard.js"></script>
+    <script src="~/js/alerts.js"></script>
+    <script src="~/js/dashboard.js" asp-append-version="true"></script>
 </body>
 </html>

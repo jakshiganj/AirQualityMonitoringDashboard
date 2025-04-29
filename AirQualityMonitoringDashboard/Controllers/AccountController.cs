@@ -30,7 +30,7 @@ namespace AirQualityMonitoringDashboard.Controllers
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Manage", "Sensor");
                 }
                 else
                 {
@@ -150,11 +150,19 @@ namespace AirQualityMonitoringDashboard.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Logout()
+        public async Task<IActionResult> Logout(string returnUrl = null)
         {
             await signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home");
+
+            // If returnUrl is not null or empty, redirect there, otherwise go to Login page
+            if (string.IsNullOrEmpty(returnUrl))
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            return Redirect(returnUrl); // If returnUrl is provided, redirect there (optional)
         }
+
 
     }
 }

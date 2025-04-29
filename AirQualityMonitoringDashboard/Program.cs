@@ -24,6 +24,8 @@ builder.Services.AddScoped<ISensorRepository, SensorRepository>();
 builder.Services.AddHttpClient<AQIDataService>();
 builder.Services.AddHostedService<AirQualityBackgroundService>();
 
+builder.Services.AddSingleton<InMemoryAlertService>();
+builder.Services.AddHostedService<AlertBackgroundService>();
 // Configure Identity
 builder.Services.AddIdentity<User, IdentityRole>(options =>
 {
@@ -39,6 +41,12 @@ builder.Services.AddIdentity<User, IdentityRole>(options =>
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Account/Login";
+    options.AccessDeniedPath = "/Account/AccessDenied"; 
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -52,19 +60,29 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
+//app.MapControllerRoute(
+//    name: "dashboard",
+//    pattern: "dashboard/{action=Index}/{id?}",
+//    defaults: new { controller = "Dashboard" }
+//);
+
+//app.MapControllerRoute(
+//    name: "login",
+//    pattern: "{controller=Account}/{action=Login}/{id?}");
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Dashboard}/{action=Index}/{id?}");
+
+// Optional: manual Dashboard route (not strictly needed)
 app.MapControllerRoute(
     name: "dashboard",
     pattern: "dashboard/{action=Index}/{id?}",
     defaults: new { controller = "Dashboard" }
 );
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Account}/{action=Login}/{id?}");
-
 app.MapControllers();
 
 using (var scope = app.Services.CreateScope())
